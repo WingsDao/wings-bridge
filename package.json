@@ -1,6 +1,6 @@
 {
   "name": "@wings_platform/wings-bridge",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Wings Bridge",
   "main": "contracts/Bridge.sol",
   "directories": {
