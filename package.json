@@ -9,8 +9,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "url": "https://github.com/WingsDao/wings-bridge/",
   "author": "Wings Stiftung",
-  "license": "GPL-3.0",
+  "license": "SEE LICENSE IN LICENSE",
   "dependencies": {
     "chai": "^4.1.2",
     "wings-integration": "^1.1.4",
