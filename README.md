@@ -235,8 +235,8 @@ function notifySale(uint256 _ethAmount, uint256 _tokenAmount) internal bridgeIni
 So we have method `sellTokens` in Crowdsale, where we usually sell tokens, in the end of this method we will add call of `notifySale`:
 
 ```sc
-    // call notifySale, _value - ETH amount, tokensSold - tokens amount
-    notifySale(_value, tokensSold);
+// call notifySale, _value - ETH amount, tokensSold - tokens amount
+notifySale(_value, tokensSold);
 ```
 
 ## Developing
