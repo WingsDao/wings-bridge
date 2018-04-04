@@ -27,6 +27,8 @@ What you need to do step by step:
 For more details read next part of this tutorial.
 
 ## Integration 
+
+// In progress...
   
 ## Developing
 
