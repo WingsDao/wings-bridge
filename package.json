@@ -1,0 +1,19 @@
+{
+  "name": "@wings_platform/wings-bridge",
+  "version": "1.0.0",
+  "description": "Wings Bridge",
+  "main": "contracts/Bridge.sol",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Wings Stiftung",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "chai": "^4.1.2",
+    "wings-integration": "^1.1.4",
+    "zeppelin-solidity": "^1.8.0"
+  }
+}
