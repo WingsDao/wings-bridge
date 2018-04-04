@@ -239,6 +239,43 @@ So we have method `sellTokens` in Crowdsale, where we usually sell tokens, in th
 notifySale(_value, tokensSold);
 ```
 
+To see how method looks now, see [example](https://github.com/WingsDao/wings-bridge/blob/master/contracts/examples/crowdsale.sol#L89).
+
+And last thing we should in crowdsale source code, it's adding issue of rewards tokens, and closing bridge. Let's add
+it to `releaseTokens` method.
+
+```sc
+// send rewards
+uint256 ethReward = 0;
+uint256 tokenReward = 0;
+
+(ethReward, tokenReward) = bridge.calculateRewards();
+
+if (ethReward > 0) {
+   bridge.transfer(ethReward);
+}
+
+if (tokenReward > 0) {
+   crowdsaleToken.issue(bridge, tokenReward);
+}
+
+// close bridge
+closeBridge();
+```
+
+So, with method `calculateRewards` we can get amount of rewards we have to pay, **important** to call this method when crowdsale completed, returns two value: reward in ETH and reward in tokens. If you don't have reward in ETH, amount to send will be zero.
+
+Another method is `closeBridge`, that report to bridge smart contract, that crowdsale completed.
+
+See how it looks now in [examples](https://github.com/WingsDao/wings-bridge/blob/master/contracts/examples/crowdsale.sol#L53).
+
+At this stage no need more changes to source code.
+
+We should deploy our contracts right, before we start forecasting on Wings platform.
+So let's make a migration script, that will deploy token/crowdsale and bridge contract, and meanwhile make right ownership logic on our contracts.
+
+
+
 ## Developing
 
 We recommend to make pull requests to current repository. Each pull request should be covered with tests. 
