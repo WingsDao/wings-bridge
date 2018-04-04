@@ -28,7 +28,9 @@ For more details read next part of this tutorial.
 
 ## Integration 
 
-// In progress...
+On example of standard crowdsale contract we will do bridge integration. **Important**: this is just tutorial and shows one of the many ways to integrate bridge contract, everything based on your own crowdsale contract. Don't use this example on mainnet. 
+
+Let's take a standard token and crowdsale contract. Token contract is mintable, so we will use token to issue new tokens, manage issue will be done by crowdsale contract (that will be owner of token contract).
   
 ## Developing
 
