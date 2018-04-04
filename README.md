@@ -96,7 +96,7 @@ contract Token is Ownable, StandardToken {
 
 Crowdsale contract:
 
-```
+```sc
 pragma solidity ^0.4.18;
 
 import "zeppelin-solidity/contracts/ownership/Ownable.sol";
@@ -205,9 +205,40 @@ contract Crowdsale is Ownable {
     owner.transfer(_amount);
   }
 }
-```sc
+```
 
-  
+Now let's add support of Connector contract to crowdsale contract.
+
+```sc
+import "@wings_platform/wings-bridge/contracts/Connector.sol";
+```
+
+And inherit Crowdsale from Connector.
+
+```sc
+contract Crowdsale is Connector {
+```
+
+Connector is already inherits from `Ownable` so we don't need to inherit again.
+
+Now our goal to call `notifySale` on each call, method looks so in Connector contract:
+
+```sc 
+function notifySale(uint256 _ethAmount, uint256 _tokenAmount) internal bridgeInitialized {
+    bridge.notifySale(_ethAmount, _tokenAmount);
+}
+```
+
+- `uint256 _ethAmount` - is amount of ETH that was sent to buy tokens.
+- `uint256 _tokenAmount` - is amount of tokens that bought.
+
+So we have method `sellTokens` in Crowdsale, where we usually sell tokens, in the end of this method we will add call of `notifySale`:
+
+```sc
+    // call notifySale, _value - ETH amount, tokensSold - tokens amount
+    notifySale(_value, tokensSold);
+```
+
 ## Developing
 
 We recommend to make pull requests to current repository. Each pull request should be covered with tests. 
