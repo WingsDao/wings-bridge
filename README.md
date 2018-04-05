@@ -347,11 +347,11 @@ To do it, just take URL of your project, like:
 
 https://wings.ai/project/0x28e7f296570498f1182cf148034e818df723798a
 
-As you see - `0x28e7f296570498f1182cf148034e818df723798a`, it's your DAO contract address. You can check it via parity or some other ethereum clients/tools, your account that you used to project at [wings.ai](https://wings.ai) is owner of this smart contract.
+As you see - `0x28e7f296570498f1182cf148034e818df723798a`, it's your DAO contract address. You can check it via parity or some other ethereum clients/tools. Account that you used to project at [wings.ai](https://wings.ai) is owner of this smart contract.
 
-So we take this address, and move manager of bridge to this address, we use `transferManager` method for it.
+So we take this address, and move manager of bridge to this address. We use `transferManager` method for it.
 
-**IMPORTANT**: all this steps can go during you forecasting period.
+**IMPORTANT**: all these steps can go during your forecasting period.
 
 Like:
 
@@ -393,7 +393,7 @@ Fetch current repository, install dependencies:
 
     npm install
 
-We strongly recommend to develop using [testrpc](https://github.com/trufflesuite/ganache-cli) to save time and cost.
+We strongly recommend using [ganache-cli](https://github.com/trufflesuite/ganache-cli) for development to save time and cost.
 
 ## Tests
 
