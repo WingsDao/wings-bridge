@@ -210,6 +210,10 @@ contract Crowdsale is Ownable {
 
 Now let's add support of Connector contract to crowdsale contract.
 
+```
+npm i @wings_platform/wings-bridge --save
+```
+
 ```sc
 import "@wings_platform/wings-bridge/contracts/Connector.sol";
 ```
