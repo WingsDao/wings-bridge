@@ -351,7 +351,7 @@ As you see - `0x28e7f296570498f1182cf148034e818df723798a`, it's your DAO contrac
 
 So we take this address, and move manager of bridge to this address. We use `transferManager` method for it.
 
-**IMPORTANT**: all these steps can go during your forecasting period.
+**IMPORTANT**: all these steps can be made during your forecasting period.
 
 Like:
 
