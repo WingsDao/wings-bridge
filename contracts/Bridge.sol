@@ -27,7 +27,7 @@ contract Bridge is BasicCrowdsale {
   bool public completed;
 
   // Ctor. In this example, minimalGoal, hardCap, and price are not changeable.
-  // In more complex cases, those parameters may be changed until start() is called.
+  // In more complex cases, those parameters might be changed until start() is called.
   function Bridge(
     uint256 _minimalGoal,
     uint256 _hardCap,
@@ -146,7 +146,7 @@ contract Bridge is BasicCrowdsale {
   // must return true if crowdsale is over, but it failed
   function isFailed()
     public
-    constant
+    view
     returns(bool)
   {
     return (
@@ -157,7 +157,7 @@ contract Bridge is BasicCrowdsale {
   // must return true if crowdsale is active (i.e. the token can be bought)
   function isActive()
     public
-    constant
+    view
     returns(bool)
   {
     return (
@@ -169,7 +169,7 @@ contract Bridge is BasicCrowdsale {
   // must return true if crowdsale completed successfully
   function isSuccessful()
     public
-    constant
+    view
     returns(bool)
   {
     return (
@@ -182,12 +182,7 @@ contract Bridge is BasicCrowdsale {
     uint256 ethRewardPart = IWingsController(manager).ethRewardPart();
 
     uint256 tokenReward = totalSold.mul(tokenRewardPart) / 1000000;
-    bool hasEthReward = (ethRewardPart != 0);
-
-    uint256 ethReward = 0;
-    if (hasEthReward) {
-        ethReward = totalCollected.mul(ethRewardPart) / 1000000;
-    }
+    uint256 ethReward = (ethRewardPart != 0) ? (totalCollected.mul(ethRewardPart) / 1000000) : 0;
 
     return (ethReward, tokenReward);
   }

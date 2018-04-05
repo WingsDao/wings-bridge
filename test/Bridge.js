@@ -1,10 +1,9 @@
-const chai = require('chai')
+const should = require('chai').should()
 const BigNumber = require('bignumber.js')
-chai.should()
 
-const Bridge = artifacts.require('Bridge');
-const Crowdsale = artifacts.require('Crowdsale');
-const Token = artifacts.require('Token');
+const Bridge = artifacts.require('Bridge')
+const Crowdsale = artifacts.require('Crowdsale')
+const Token = artifacts.require('Token')
 const ControllerStub = artifacts.require('ControllerStub')
 
 let sendETH = (txObject) => {
@@ -29,7 +28,7 @@ contract('Bridge', (accounts) => {
 
   let token, crowdsale, controller, bridge
 
-  before(async function () {
+  before(async () => {
     // deploy token
     token = await Token.new({
       from: creator
@@ -74,7 +73,7 @@ contract('Bridge', (accounts) => {
     await bridge.start(0, 0, '0x0', {
       from: creator
     })
-  });
+  })
 
   it('should participate in crowdsale', async () => {
     await sendETH({
@@ -109,7 +108,7 @@ contract('Bridge', (accounts) => {
     })
   })
 
-  it('should move bridge manager to controller', async () => {
+  it('should transfer bridge management to controller', async () => {
     await bridge.transferManager(controller.address, {
       from: creator
     })
@@ -130,17 +129,17 @@ contract('Bridge', (accounts) => {
 
   it('should finish bridge', async () => {
     const completed = await bridge.completed.call()
-    completed.should.be.equal(true);
+    completed.should.be.equal(true)
   })
 
-  it('should has tokens reward on contract', async () => {
-    const tokenReward = new BigNumber(totalSold).mul(rewards.tokens).div(1000000);
+  it('should have tokens reward at bridge contract', async () => {
+    const tokenReward = new BigNumber(totalSold).mul(rewards.tokens).div(1000000)
     const balance = await token.balanceOf.call(bridge.address)
 
     balance.toString(10).should.be.equal(tokenReward.toString(10))
   })
 
-  it('should has eth reward on contract', async () => {
+  it('should have eth reward at bridge contract', async () => {
     const ethReward = new BigNumber(toSend).mul(rewards.eth).div(1000000)
     const balance = web3.eth.getBalance(bridge.address)
 
