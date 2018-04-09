@@ -17,10 +17,14 @@ contract Token is Ownable, StandardToken {
     bool public releasedForTransfer;
 
     // Ctor. Hardcodes names in this example
-    function Token() public {
-        name = "CustomTokenExample";
-        symbol = "CTE";
-        decimals = 18;
+    function Token(
+        string _name,
+        string _symbol,
+        uint8 _decimals
+      ) public {
+        name = _name;
+        symbol = _symbol;
+        decimals = _decimals;
     }
 
 // override these 2 functions to prevent from transferring tokens before it was released

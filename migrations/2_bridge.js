@@ -3,25 +3,16 @@ const Crowdsale = artifacts.require('Crowdsale')
 const Token = artifacts.require('Token')
 
 module.exports = async (deployer) => {
-  await deployer.deploy(Token)
+  await deployer.deploy(Token, "Arcona Distribution Contract", "ARN", 18)
 
   const token = await Token.deployed()
 
-  await deployer.deploy(Crowdsale, token.address)
-
-  const crowdsale = await Crowdsale.deployed()
-
-  await token.transferOwnership(crowdsale.address)
-
-  await deployer.deploy(Bridge, web3.toWei(10, 'ether'), web3.toWei(100, 'ether'), token.address, crowdsale.address)
+  await deployer.deploy(Bridge, web3.toWei(5555.5, 'ether'), web3.toWei(55555, 'ether'), token.address)
 
   const bridge = await Bridge.deployed()
 
-  await crowdsale.changeBridge(bridge.address)
-
   console.log('\n\n\n============================================')
   console.log(`Token: ${token.address}`)
-  console.log(`Crowdsale: ${crowdsale.address}`)
   console.log(`Bridge: ${bridge.address}`)
   console.log('\n\n\n')
 }

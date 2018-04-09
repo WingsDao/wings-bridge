@@ -12,16 +12,8 @@ import './IWingsController.sol';
 contract Bridge is BasicCrowdsale {
   using SafeMath for uint256;
 
-  modifier onlyCrowdsale() {
-    require(msg.sender == crowdsaleAddress);
-    _;
-  }
-
   // Crowdsale token
   BasicToken token;
-
-  // Address of crowdsale
-  address public crowdsaleAddress;
 
   // is crowdsale completed
   bool public completed;
@@ -31,8 +23,7 @@ contract Bridge is BasicCrowdsale {
   function Bridge(
     uint256 _minimalGoal,
     uint256 _hardCap,
-    address _token,
-    address _crowdsaleAddress
+    address _token
   )
     public
     // simplest case where manager==owner. See onlyOwner() and onlyManager() modifiers
@@ -42,7 +33,6 @@ contract Bridge is BasicCrowdsale {
     // just setup them once...
     minimalGoal = _minimalGoal;
     hardCap = _hardCap;
-    crowdsaleAddress = _crowdsaleAddress;
     token = BasicToken(_token);
   }
 
@@ -90,7 +80,7 @@ contract Bridge is BasicCrowdsale {
     hasBeenStarted()     // crowdsale started
     hasntStopped()       // wasn't cancelled by owner
     whenCrowdsaleAlive() // in active state
-    onlyCrowdsale() // can do only crowdsale
+    onlyOwner() // can do only crowdsale
   {
     totalCollected = totalCollected.add(_ethAmount);
     totalSold += totalSold.add(_tokensAmount);
@@ -101,7 +91,7 @@ contract Bridge is BasicCrowdsale {
     hasntStopped()
     hasBeenStarted()
     whenCrowdsaleAlive()
-    onlyCrowdsale()
+    onlyOwner()
   {
     completed = true;
   }
@@ -190,5 +180,9 @@ contract Bridge is BasicCrowdsale {
     }
 
     return (ethReward, tokenReward);
+  }
+
+  function changeToken(address _newToken) onlyOwner {
+    token = BasicToken(_newToken);
   }
 }

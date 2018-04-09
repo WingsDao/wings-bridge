@@ -3,7 +3,6 @@ const BigNumber = require('bignumber.js')
 chai.should()
 
 const Bridge = artifacts.require('Bridge');
-const Crowdsale = artifacts.require('Crowdsale');
 const Token = artifacts.require('Token');
 const ControllerStub = artifacts.require('ControllerStub')
 
@@ -24,42 +23,26 @@ contract('Bridge', (accounts) => {
     eth: 100000
   }
 
-  let toSend = web3.toWei(1, 'ether')
+  let toSend = new BigNumber(web3.toWei(1, 'ether'))
   let totalCollected, totalSold
 
   let token, crowdsale, controller, bridge
 
   before(async function () {
     // deploy token
-    token = await Token.new({
-      from: creator
-    })
-
-    // deploy crowdsale
-    crowdsale = await Crowdsale.new(token.address, {
-      from: creator
-    })
-
-    // move token under crowdsale control
-    await token.transferOwnership(crowdsale.address, {
+    token = await Token.new("Arcona Distribution Contract", "ARN", 18, {
       from: creator
     })
 
     // deploy bridge
     bridge = await Bridge.new(
-      web3.toWei(100, 'ether'),
-      web3.toWei(1000, 'ether'),
+      web3.toWei(5555, 'ether'),
+      web3.toWei(55555, 'ether'),
       token.address,
-      crowdsale.address,
       {
         from: creator
       }
     )
-
-    // set bridge for crowdsale
-    await crowdsale.changeBridge(bridge.address, {
-      from: creator
-    })
 
     // controller stub just for manager
     controller = await ControllerStub.new(
@@ -74,23 +57,30 @@ contract('Bridge', (accounts) => {
     await bridge.start(0, 0, '0x0', {
       from: creator
     })
-  });
+  })
+
+  it('should allow to change token', async () => {
+    await bridge.changeToken(token.address, {
+      from: creator
+    })
+  })
 
   it('should participate in crowdsale', async () => {
-    await sendETH({
-      from: participant,
-      to: crowdsale.address,
-      value: toSend,
-      gas: 500000
+    totalSold = toSend.mul(1000)
+    await token.issue(participant, totalSold, {
+      from: creator
     })
-
-    const price = await crowdsale.tokensPerEthPrice.call()
-    totalSold = price.mul(toSend)
   })
 
   it('should generate tokens for participant', async () => {
     const balance = await token.balanceOf.call(participant)
     totalSold.toString(10).should.be.equal(balance.toString(10))
+  })
+
+  it('should notify sale', async () => {
+    await bridge.notifySale(toSend, totalSold, {
+      from: creator
+    })
   })
 
   it('should update total sold value in bridge', async () => {
@@ -104,7 +94,7 @@ contract('Bridge', (accounts) => {
   })
 
   it('should finish crowdsale', async () => {
-    await crowdsale.finish({
+    await bridge.finish({
       from: creator
     })
   })
@@ -115,16 +105,15 @@ contract('Bridge', (accounts) => {
     })
   })
 
-  it('should release tokens', async () => {
-    await crowdsale.releaseTokens({
-      from: creator
-    })
-  })
+  it('should issue rewards tokens and eth', async () => {
+    const [ethReward, tokenReward] = await bridge.calculateRewards.call()
 
-  it('should withdraw ETH', async () => {
-    const balance = web3.eth.getBalance(crowdsale.address)
-    await crowdsale.withdraw(balance, {
-      from: creator
+    await token.issue(bridge.address, tokenReward)
+    await sendETH({
+      from: creator,
+      to: bridge.address,
+      value: ethReward,
+      gas: 500000
     })
   })
 
