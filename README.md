@@ -37,11 +37,11 @@ contract Crowdsale is Connector {
 Call method `notifySale` when sale/exchange of your token happens.
 
 ```sc
-notifySale(_value, tokensSold);
+notifySale(value, tokensSold);
 ```
 **Parameters:**
-  - `_value` - ETH amount
-  - `tokensSold` - tokens amount
+  - `value` - amount of funds received in wei.
+  - `tokensSold` - tokens amount.
 
 *See how it looks in [example](https://github.com/WingsDao/wings-bridge/blob/master/contracts/examples/crowdsale.sol#L89-L117).*
 
