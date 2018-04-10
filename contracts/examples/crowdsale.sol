@@ -5,12 +5,12 @@ import "./Token.sol";
 
 // Example of crowdsale. NOT FOR REAL USAGE
 contract Crowdsale is Connector {
-  modifier onlyActive() {
+  modifier whenActive() {
     require(active);
     _;
   }
 
-  modifier finished() {
+  modifier whenFinished() {
     require(!active);
     _;
   }
@@ -41,19 +41,19 @@ contract Crowdsale is Connector {
   }
 
   // just for tests
-  function finish() onlyOwner() onlyActive() {
+  function finish() onlyOwner() whenActive() {
     active = false;
   }
 
   // if there is ETH rewards and all ETH already withdrawn
-  function deposit() public payable finished() {
+  function deposit() public payable whenFinished() {
   }
 
   // transfers crowdsale token from mintable to transferrable state
   function releaseTokens()
     public
     onlyOwner()
-    finished()
+    whenFinished()
   {
     // see token example
     // send rewards
@@ -86,9 +86,9 @@ contract Crowdsale is Connector {
   }
 
   // sels the project's token to buyers
-  function sellTokens(address _recepient, uint256 _value)
+  function sellTokens(address _recipient, uint256 _value)
     internal
-    onlyActive()
+    whenActive()
   {
     require(totalCollected < hardCap);
     uint256 newTotalCollected = totalCollected + _value;
@@ -100,7 +100,7 @@ contract Crowdsale is Connector {
       uint256 diff = _value - refund;
 
       // send the ETH part which exceeds the hard cap back to the buyer
-      _recepient.transfer(refund);
+      _recipient.transfer(refund);
       _value = diff;
     }
 
@@ -108,7 +108,7 @@ contract Crowdsale is Connector {
     uint256 tokensSold = _value * tokensPerEthPrice;
 
     // create new tokens for this buyer
-    crowdsaleToken.issue(_recepient, tokensSold);
+    crowdsaleToken.issue(_recipient, tokensSold);
 
     // update total ETH collected
     totalCollected += _value;
@@ -121,6 +121,7 @@ contract Crowdsale is Connector {
     uint256 _amount // can be done partially
   )
     public
+    onlyOwner()
   {
     require(_amount <= this.balance);
     owner.transfer(_amount);
