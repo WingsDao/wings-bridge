@@ -93,7 +93,7 @@ contract Bridge is BasicCrowdsale {
     onlyCrowdsale() // can do only crowdsale
   {
     totalCollected = totalCollected.add(_ethAmount);
-    totalSold += totalSold.add(_tokensAmount);
+    totalSold = totalSold.add(_tokensAmount);
   }
 
   // finish collecting data
