@@ -13,7 +13,7 @@ module.exports = async (deployer) => {
 
   await token.transferOwnership(crowdsale.address)
 
-  await deployer.deploy(Bridge, web3.toWei(10, 'ether'), web3.toWei(100, 'ether'), token.address, crowdsale.address)
+  await deployer.deploy(Bridge, token.address, crowdsale.address)
 
   const bridge = await Bridge.deployed()
 
