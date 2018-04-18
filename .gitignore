@@ -1,2 +1,5 @@
 /node_modules
-build/
+/build
+*truffle.js
+*truffle-config.js
+package-lock.json

@@ -29,8 +29,6 @@ contract Bridge is BasicCrowdsale {
   // Ctor. In this example, minimalGoal, hardCap, and price are not changeable.
   // In more complex cases, those parameters might be changed until start() is called.
   function Bridge(
-    uint256 _minimalGoal,
-    uint256 _hardCap,
     address _token,
     address _crowdsaleAddress
   )
@@ -40,8 +38,6 @@ contract Bridge is BasicCrowdsale {
     BasicCrowdsale(msg.sender, msg.sender)
   {
     // just setup them once...
-    minimalGoal = _minimalGoal;
-    hardCap = _hardCap;
     crowdsaleAddress = _crowdsaleAddress;
     token = BasicToken(_token);
   }

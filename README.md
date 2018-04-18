@@ -117,12 +117,10 @@ await token.transferOwnership(crowdsale.address)
 Now let's deploy bridge:
 
 ```js
-await deployer.deploy(Bridge, minimalGoal, hardCap, token.address, crowdsale.address)
+await deployer.deploy(Bridge, token.address, crowdsale.address)
 const bridge = await Bridge.deployed()
 ```
 
-- `minimalGoal` - minimal goal in wei, must be greater then 10% of hard cap.
-- `hardCap` - hard cap in wei.
 - `token.address` - token address.
 - `crowdsale.address` - crowdsale address.
 

@@ -46,8 +46,6 @@ contract('Bridge', (accounts) => {
 
     // deploy bridge
     bridge = await Bridge.new(
-      web3.toWei(100, 'ether'),
-      web3.toWei(1000, 'ether'),
       token.address,
       crowdsale.address,
       {
