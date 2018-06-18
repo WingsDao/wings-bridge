@@ -1,3 +1,5 @@
+# DEPRECATED
+------
 # Wings Bridge
 
 This is Wings bridge, based on [custom crowdsale contract and integration](https://github.com/wingsdao/wings-integration) that allowing only to provide collected amount and automatically move rewards on bridge smart contract. 
